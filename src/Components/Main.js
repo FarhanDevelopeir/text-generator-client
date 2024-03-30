@@ -19,18 +19,17 @@ const Main = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const raw = { language, topic };
-    console.log(raw);
+    setTpoic('')
     setTitle(topic);
-    setTpoic("");
+   
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/generate_response",
-        raw
+        "http://127.0.0.1:5000//translate",
+        { 'text': topic }
       );
-      console.log(res);
+      console.log(res.data.translated_text);
 
-      setResult(res.data.generated_text);
+      setResult(res.data.translated_text);
       setindex(0);
     } catch (error) {
       console.log("error", error);
@@ -51,26 +50,25 @@ const Main = () => {
 
     return () => clearInterval(interval);
   }, [result]);
-  return (
-    <div className=" py-20 h-svh flex   justify-center ">
-      <div className=" md:w-[40%] ">
-        <form class=" mx-auto flex justify-evenly" onSubmit={handleSubmit}>
-          <select
-            onChange={handleLanguage}
-            class="bg-gray-50 w-[30%] md:w-[20%]   border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option>Language</option>
+  return ( 
+    <div className="h-svh bg-gray-400">
+      <div className=" py-16 h-svh  ">
+      <h1 className="text-3xl font-semibold text-center drop-shadow-xl mb-8">Translate Italian to English</h1>
 
-            <option value="english">English</option>
-            <option value="turkey">Turkey</option>
-          </select>
+      <div className="relative m-auto shadow-2xl shadow-slate-100 w-[90%] sm:w-[60%] md:w-[43%] lg:w-[35%] xl:w-[27%] border-double border-[9px] border-gray-600 rounded-[40px]  ">
+        <div className=" absolute bg-gray-700 h-14 flex justify-center items-center   w-full rounded-t-[30px]">
+          <div className=" h-2 w-[20%] bg-white rounded-md"></div>
+          <div className="h-2 w-2 ml-2 bg-white rounded-full"></div>
+        </div>
+      <div className="p-2">
+      <form class=" mx-auto flex justify-around mt-20 " onSubmit={handleSubmit}>
           <input
             type="text"
             id="small-input"
             value={topic}
             onChange={handleChange}
             aria-describedby="helper-text-explanation"
-            class="bg-gray-50   border  w-[55%] md:w-[60%] border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  px-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="bg-g   border border-black w-[80%]  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  px-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="enter topic"
           />
           <button>
@@ -82,12 +80,15 @@ const Main = () => {
         <textarea
           id="w3review"
           value={result.substring(0, index)}
-          className=" w-full px-8 m-auto text-justify outline-none "
+          className=" bg-gray-400 text-black font-semibold text-[13px] overflow-hidden w-full md:px-4 m-auto text-justify outline-none "
           name="w3review"
-          rows="20"
+          rows="16"
         ></textarea>
       </div>
+      </div>
     </div>
+    </div>
+    
   );
 };
 
